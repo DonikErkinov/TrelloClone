@@ -133,12 +133,13 @@ public class AuthUserService extends AbstractDAO<AuthUserDAO> implements Generic
 
     public void setRole(Long user_id, AuthRole role) {
 
-        Optional<AuthUser> findById = Optional.ofNullable(dao.findById(Long.valueOf(user_id)));
+        Optional<AuthUser> findById = Optional.ofNullable(dao.findById((user_id)));
         if (findById.isEmpty()){
             throw new RuntimeException("user not found");
         }
-
-        dao.update(user_id,role);
+        AuthUser authUser = findById.get();
+        authUser.setRole(role);
+        dao.update(authUser);
 
     }
 

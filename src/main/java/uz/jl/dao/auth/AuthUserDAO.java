@@ -27,7 +27,11 @@ public class AuthUserDAO extends GenericDAO<AuthUser, Long> {
 
 
 
-    public Optional<AuthUser> findByUserName(String username) {
+    public Optional<AuthUser>
+
+
+
+    findByUserName(String username) {
         Session session = getSession();
         session.beginTransaction();
         Query<AuthUser> query = session
