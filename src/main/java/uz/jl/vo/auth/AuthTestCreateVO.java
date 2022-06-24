@@ -5,14 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import uz.jl.domains.auth.AuthAnswers;
+import uz.jl.domains.auth.AuthTest;
 import uz.jl.enums.TestLevel;
 import uz.jl.vo.BaseVO;
 
 @Data
-@Builder
+@Builder(builderMethodName = "magic")
 @NoArgsConstructor
 @AllArgsConstructor
-public class AuthTestCreateVO implements BaseVO {
+public class AuthTestCreateVO extends AuthTest implements BaseVO {
     private String title;
     private TestLevel level;
     private AuthAnswerCreateVO answers;

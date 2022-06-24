@@ -8,6 +8,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import uz.jl.dao.GenericDAO;
 import uz.jl.domains.auth.AuthUser;
+import uz.jl.enums.AuthRole;
 
 import javax.swing.text.html.Option;
 import java.util.Objects;
@@ -36,5 +37,16 @@ public class AuthUserDAO extends GenericDAO<AuthUser, Long> {
         Optional<AuthUser> result = Optional.ofNullable(query.getSingleResultOrNull());
         session.close();
         return result;
+    }
+
+    public void update(Long user_id, AuthRole role) {
+
+        Session session = getSession();
+        session.beginTransaction();
+        AuthUser authuser = session.load(AuthUser.class, user_id);
+        authuser.setRole(role);
+        session.update(authuser);
+        session.getTransaction().commit();
+        session.close();
     }
 }

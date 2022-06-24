@@ -1,17 +1,12 @@
 package uz.jl.service.auth;
 
-import com.google.gson.Gson;
 import jakarta.transaction.Transactional;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import uz.jl.Colors;
 import uz.jl.configs.ApplicationContextHolder;
-import uz.jl.configs.PasswordConfigurer;
 import uz.jl.dao.AbstractDAO;
 import uz.jl.dao.auth.AuthUserDAO;
 import uz.jl.domains.auth.AuthUser;
+import uz.jl.enums.AuthRole;
 import uz.jl.service.GenericCRUDService;
 import uz.jl.utils.BaseUtils;
 import uz.jl.vo.auth.AuthUserCreateVO;
@@ -30,9 +25,11 @@ public class AuthUserService extends AbstractDAO<AuthUserDAO> implements Generic
         Long> {
 
     private static AuthUserService instance;
+
+
 //    private final AuthUserValidator validator;
 
-    private AuthUserService() {
+    public AuthUserService() {
         super(
                 ApplicationContextHolder.getBean(AuthUserDAO.class),
                 ApplicationContextHolder.getBean(BaseUtils.class)
@@ -111,4 +108,47 @@ public class AuthUserService extends AbstractDAO<AuthUserDAO> implements Generic
     }
 
 
+    public Response<List<AuthUserVO>> showSubjects() {
+        List<AuthUser> allSubject = dao.findAll();
+        if(allSubject.isEmpty()){
+            throw new RuntimeException("Subject doesnt exist!");
+        }
+
+
+        return null;
+    }
+
+
+    public Response<AuthUserVO> showUserRole(String userId) {
+        AuthUser authUser = dao.findById(Long.valueOf(userId));
+        AuthUserVO authUserVO = new AuthUserVO(authUser.getUsername(), authUser.getEmail(),authUser.getRole());
+
+        return new Response<>(authUserVO);
+    }
+
+    public void changeUserCurrentRole(String userName) {
+        Optional<AuthUser> authUser = dao.findByUserName(userName);
+
+    }
+
+    public void setRole(Long user_id, AuthRole role) {
+
+        Optional<AuthUser> findById = Optional.ofNullable(dao.findById(Long.valueOf(user_id)));
+        if (findById.isEmpty()){
+            throw new RuntimeException("user not found");
+        }
+
+        dao.update(user_id,role);
+
+    }
+
+    public void changeUsername(String newUsername) {
+        AuthUser authUser = dao.findById(Session.sessionUser.getId());
+        authUser.setUsername(newUsername);
+        dao.update(authUser);
+
+
+
+
+    }
 }

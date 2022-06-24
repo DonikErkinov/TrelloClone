@@ -3,7 +3,6 @@ package uz.jl.domains;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
 
@@ -36,4 +35,6 @@ public class Auditable implements BaseDomain {
     @Column(columnDefinition = "smallint default 0")
     @Convert(converter = org.hibernate.type.NumericBooleanConverter.class)
     private boolean deleted;
+
+
 }

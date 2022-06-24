@@ -62,12 +62,12 @@ public class TestUI {
             default -> answer = variant_A;
         }
 
-        AuthTestCreateVO testVO = AuthTestCreateVO.builder()
+        AuthTestCreateVO testVO = AuthTestCreateVO.magic()
                 .title(title)
                 .level(TestLevel.valueOf(level))
                 .build();
 
-        AuthAnswerCreateVO answerVO = AuthAnswerCreateVO.builder()
+        AuthAnswerCreateVO answerVO = AuthAnswerCreateVO.childbuilder()
                 .variant_A(variant_A)
                 .variant_B(variant_B)
                 .variant_D(variant_D)

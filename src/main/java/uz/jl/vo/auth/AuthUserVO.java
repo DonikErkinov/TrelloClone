@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
+
 @Builder
 public class AuthUserVO extends GenericVO {
     private String username;
@@ -20,4 +20,17 @@ public class AuthUserVO extends GenericVO {
     private AuthRole role;
     private Timestamp createdAt;
 
+    public AuthUserVO(String username, String email, AuthRole role, Timestamp createdAt) {
+        this.username = username;
+        this.email = email;
+        this.role = role;
+        this.createdAt = createdAt;
+    }
+
+
+    public AuthUserVO(String username, String email, AuthRole role) {
+        this.username = username;
+        this.email = email;
+        this.role = role;
+    }
 }

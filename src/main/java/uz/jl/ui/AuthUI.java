@@ -127,12 +127,12 @@ public class AuthUI {
             default -> answer = variant_A;
         }
 
-        AuthTestCreateVO testVO = AuthTestCreateVO.builder()
+        AuthTestCreateVO testVO = AuthTestCreateVO.magic()
                 .title(title)
                 .level(TestLevel.valueOf(level))
                 .build();
 
-        AuthAnswerCreateVO answerVO = AuthAnswerCreateVO.builder()
+        AuthAnswerCreateVO answerVO = AuthAnswerCreateVO.childbuilder()
                 .variant_A(variant_A)
                 .variant_B(variant_B)
                 .variant_D(variant_D)
@@ -149,11 +149,59 @@ public class AuthUI {
 
     private void changeRole() {
 
+        Long user_id = Long.valueOf(BaseUtils.readText("Insert user id: "));
+
+        AuthRole role=null;
+
+        BaseUtils.println("1.ADMIN\n2.TEACHER\n3.USER\n");
+        String option = BaseUtils.readText("Insert option: ");
+
+        switch (option){
+            case "1"-> role=AuthRole.ADMIN;
+            case "2"-> role=AuthRole.TEACHER;
+            default -> role=AuthRole.USER;
+        }
+
+        service.setRole(user_id,role);
+
+
+
     }
+
+    private void changeUserCurrentRole() {
+        String userName = BaseUtils.readText("write username to change its role: ");
+        service.changeUserCurrentRole(userName);
+    }
+
+    private void showUserRoleById() {
+        String userName = BaseUtils.readText("write user id: ");
+        service.showUserRole(userName);
+
+    }
+/*
+*
+*
+* */
+
 
     private void subjectCrud() {
+        String choice = BaseUtils.readText("?:");
+        switch (choice){
+            case "1" -> service.showSubjects();
+//            case "2" -> authUI.createSubject();
+//            case "3" -> authUI.updateSubject();
+//            case "4" -> authUI.deleteSubject();
+            case "0" -> authUI.logout();
+            case "q" -> {
+                BaseUtils.println("Bye", Colors.CYAN);
+                System.exit(0);
+            }
+            default -> BaseUtils.println("Wrong Choice", Colors.RED);
+        }
 
     }
+
+
 
     private void showStatistics() {
 
@@ -164,6 +212,8 @@ public class AuthUI {
     }
 
     private void startQuiz() {
+
+
 
     }
 
